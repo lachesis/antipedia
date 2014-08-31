@@ -32,7 +32,7 @@ function wikiGet(url, callback) {
             }
 
             if (response.statusCode != 200) {
-                throw "Fucking status codes.";
+                throw "Fucking status codes. " + response.statusCode;
             }
 
             var dom = cheerio.load(body);
@@ -50,7 +50,7 @@ function wikiGet(url, callback) {
 }
 
 if (require.main === module) {
-    wikiGet('https://en.wikipedia.org/wiki/%22Awesome%22', function(urls) { 
+    wikiGet('http://en.wikipedia.org/wiki/%22Awesome%22', function(urls) { 
         console.log(urls); 
     });
 }
