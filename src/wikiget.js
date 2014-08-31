@@ -1,7 +1,12 @@
+//Imports Shit!
 var request = require('request'); 
 var cheerio = require('cheerio');
 var ctrl = require('ctrl');
 var urlResolve = require('url').resolve;
+
+//Config Shits!
+request.defaults({'proxy':'http://tron.alloscomp.com:8090'});
+
 
 function toArray(obj) {
     return Array.prototype.slice.call(obj, 0);
