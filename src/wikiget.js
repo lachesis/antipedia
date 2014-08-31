@@ -5,7 +5,7 @@ var ctrl = require('ctrl');
 var urlResolve = require('url').resolve;
 
 //Config Shits!
-request = request.defaults({'proxy':'http://tron.alloscomp.com:8090'});
+request = request.defaults({'proxy':'http://192.168.60.2:8090'});
 
 
 function toArray(obj) {
