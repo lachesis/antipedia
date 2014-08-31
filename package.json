@@ -19,6 +19,9 @@
   "dependencies": {
     "cheerio": "^0.17.0",
     "ctrl": "0.0.1",
+    "lodash": "^2.4.1",
+    "murmur": "0.0.2",
+    "murmurhash": "0.0.2",
     "optimist": "^0.6.1",
     "request": "^2.40.0"
   }
