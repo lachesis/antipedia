@@ -28,6 +28,8 @@ function wikiGet(url, callback) {
                 throw "Fucking status codes. " + response.statusCode;
             }
 
+            var hasHitler = /\bhitler\b/i.test(body);
+    
             var dom = cheerio.load(body);
             var urls = dom("a.mw-redirect").map(function(idx, elm) {
                 return urlResolve(url, elm.attribs.href);
@@ -35,7 +37,7 @@ function wikiGet(url, callback) {
 
             urls = utilities.toArray(urls);
 
-            callback(urls);
+            callback(urls, hasHitler);
         }
    ];
 

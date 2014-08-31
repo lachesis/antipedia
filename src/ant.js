@@ -55,13 +55,13 @@ Ant.prototype.walk = function(callback) {
     this.log("Depth: " + this.stack.length + " Visiting " + current);
 
     var self = this;
-    wikiget.wikiGet(current, function(urls) {
+    wikiget.wikiGet(current, function(urls, hasHitler) {
         if (urls.length == 0) {
             self.kill();
             return;
         }
 
-        if (self.won()) {
+        if (hasHitler) {
             self.markPath();
             callback && callback(true);
             return;
