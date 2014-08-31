@@ -29,7 +29,7 @@ function wikiGet(url, callback) {
             }
 
             var dom = cheerio.load(body);
-            var urls = dom("a.mw-redirect").map(function(idx, elm) {
+            var urls = dom("#content a.mw-redirect").map(function(idx, elm) {
                 return urlResolve(url, elm.attribs.href);
             });
 
