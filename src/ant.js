@@ -24,6 +24,8 @@ Ant.prototype.log = function(msg) {
 }
 
 Ant.prototype.current = function() {
+    if (!this.stack.length)
+        return;
     return this.stack[this.stack.length - 1].url;
 };
 
@@ -38,8 +40,10 @@ Ant.prototype.lost = function() {
 Ant.prototype.markPath = function() {
     this.log("Won with a length of " + this.stack.length);
 
+    var stk = this.stack.slice(0);
+
     var x;
-    while (x = this.stack.pop()) {
+    while (x = stk.pop()) {
         gPathWeights[x.hash] = (gPathWeights[x.hash] || 1) + PARM_WEIGHT_TO_ADD;
     }
 }
@@ -50,6 +54,8 @@ Ant.prototype.kill = function() {
 }
 
 Ant.prototype.walk = function(callback) {
+    if(this.lost()) { return; }
+
     var current = this.current();
 
     this.log("Depth: " + this.stack.length + " Visiting " + current);
@@ -63,12 +69,12 @@ Ant.prototype.walk = function(callback) {
 
         if (hasHitler) {
             self.markPath();
-            callback && callback(true);
+            callback(true);
             return;
         }
 
         if (self.lost()) {
-            callback && callback(false);
+            callback(false);
             return;
         }
 
@@ -102,10 +108,15 @@ Ant.prototype.walk = function(callback) {
         // Push the best path on the stack
         self.stack.push(bestPath);
 
-        self.walk();
+        self.walk(callback);
     });
 }
 
-for (var i = 0; i < 50; i++) {
-    (new Ant('http://en.wikipedia.org/wiki/Gun', 'http://en.wikipedia.org/wiki/M16_rifle')).walk();
-}
+var ants = _.range(50).map(function() { return new Ant('http://en.wikipedia.org/wiki/Gun', null); });
+ants.forEach(function(ant) { ant.walk(function(success) {
+    if(success) {
+        console.dir(ant.stack);
+        ants.forEach(function(oant) { oant.kill(); });
+        process.exit();
+    }
+})});
